@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 class VertexData(val vertex: Vertex[VertexData, Int],
                  var connectionWeight: Int) {
-  def getKey(): Int = -connectionWeight
+  def getKey(): Int = connectionWeight
 }
 
 type MinCutVertex = Vertex[Null|VertexData, Int]
@@ -27,7 +27,7 @@ trait PriorityQueue[T] {
 }
 
 class GroupVertices(override val identifier: Long,
-                    override val n: Null|VertexData,
+                    n: Null|VertexData,
                     val node1: MinCutVertex,
                     val node2: MinCutVertex)
   extends MinCutVertex(identifier, n) {
@@ -102,7 +102,7 @@ class MinimumCutPhaseResult(val g: MinCutGraph,
 }
 
 
-class Minimumcut(val priorityQueue: PriorityQueue[MinCutVertex]) {
+class Minimumcut(val priorityQueue: () => PriorityQueue[MinCutVertex]) {
 
   def weight(node: MinCutVertex, seq: Seq[MinCutVertex]): Int = {
     val predSum = node.predecessors.iterator()
@@ -122,12 +122,22 @@ class Minimumcut(val priorityQueue: PriorityQueue[MinCutVertex]) {
     predSum + succSum
   }
 
+  private def updateQueue(queue: PriorityQueue[MinCutVertex],
+                          addedVertex: MinCutVertex) = {
+    addedVertex.successors.iterator()
+      .map { (e: MinCutEdge) => e.end }
+    val data = new VertexData(addedVertex, 1)
+    addedVertex.n = data
+  }
+
   def minimumCutPhase(g: MinCutGraph): MinimumCutPhaseResult = {
     val nodes = ArrayBuffer[MinCutVertex]()
     val leave = ArrayBuffer[MinCutVertex]()
     leave ++= g.nodes.iterator()
     val current: MinCutVertex = leave.remove(leave.length - 1)
     nodes += current
+
+    val queue = this.priorityQueue()
 
     var last: MinCutVertex = current
     var beforeLast: MinCutVertex = current

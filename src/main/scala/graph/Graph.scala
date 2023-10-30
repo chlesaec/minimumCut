@@ -3,7 +3,7 @@ package graph
 import scala.collection.mutable.ArrayBuffer
 
 
-class Vertex[N, E](val identifier: Long, val n: N) {
+class Vertex[N, E](val identifier: Long, var n: N) {
 
   var index: Int = 0
 

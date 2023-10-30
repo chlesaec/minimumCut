@@ -7,8 +7,8 @@ class MinimumCutTest {
 
   @Test
   def min(): Unit = {
-    val queue = PriorityQueueForMinCut[MinCutVertex]()
-    val min = Minimumcut(queue)
+    //val queue = PriorityQueueForMinCut[MinCutVertex]()
+    val min = Minimumcut(() => PriorityQueueForMinCut[MinCutVertex]())
     val graph = Graph[Int, Int]()
     val n1 = graph.addNode(1)
     val n2 = graph.addNode(2)
