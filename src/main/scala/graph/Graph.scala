@@ -40,6 +40,10 @@ class Vertex[N, E](val identifier: Long, var n: N) {
     }
   }
 
+  def siblings() : Iterator[Edge[N, E]] = {
+    this.successors.iterator().++(this.predecessors.iterator())
+  }
+
   override def toString = s"Node($identifier)"
 }
 
@@ -71,7 +75,7 @@ class Vertices[N, E]() {
   }
 }
 
-case class Edge[N, E](e: E,
+case class Edge[N, E](edgeData: E,
                       start: Vertex[N, E],
                       end: Vertex[N, E]) {
   var indexStart: Int = 0

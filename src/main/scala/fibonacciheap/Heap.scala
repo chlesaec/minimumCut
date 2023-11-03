@@ -14,13 +14,13 @@ class Heap[K, N](using ev: Numeric[K]) extends Element[K, N] {
   override def getKey: String = "Heap"
 
   def deleteMin(): Node[K, N] | Null = {
-    val currentChild: Node[K, N] | Null = this.child
-    if (currentChild == null) {
+    val currentMin: Node[K, N] | Null = this.child
+    if (currentMin == null) {
       null
     }
     else {
-      this.removeMin(currentChild)
-      this.child
+      this.removeMin(currentMin)
+      currentMin
     }
   }
 
@@ -118,7 +118,6 @@ case class Node[K, N](var key: K,
     node.parent = this.parent
     node.forEachSibling[Unit] { (* : Unit | Null, s: Node[K, N]) =>
       s.parent = this.parent
-      null
     }
     val currentRight = this.rightSibling
     this.linkToRight(node.rightSibling)

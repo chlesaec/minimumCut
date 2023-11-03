@@ -8,16 +8,16 @@ class MinimumCutTest {
   @Test
   def min(): Unit = {
     //val queue = PriorityQueueForMinCut[MinCutVertex]()
-    val min = Minimumcut(() => PriorityQueueForMinCut[MinCutVertex]())
-    val graph = Graph[Int, Int]()
-    val n1 = graph.addNode(1)
-    val n2 = graph.addNode(2)
-    val n3 = graph.addNode(3)
-    val n4 = graph.addNode(4)
-    val n5 = graph.addNode(5)
-    val n6 = graph.addNode(6)
-    val n7 = graph.addNode(7)
-    val n8 = graph.addNode(8)
+    val min = MinimumCut(() => PriorityQueueForMinCut[MinCutVertex]())
+    val graph = Graph[Null | VertexData, Int]()
+    val n1 = graph.addNode(null)
+    val n2 = graph.addNode(null)
+    val n3 = graph.addNode(null)
+    val n4 = graph.addNode(null)
+    val n5 = graph.addNode(null)
+    val n6 = graph.addNode(null)
+    val n7 = graph.addNode(null)
+    val n8 = graph.addNode(null)
 
     n1.addSuccessor(n2, 2)
     n1.addSuccessor(n5, 3)
@@ -38,7 +38,7 @@ class MinimumCutTest {
 
     n7.addSuccessor(n8, 3)
 
-   // val result : MinimumCutPhaseResult = min.minimumCut(graph)
-  //  Assertions.assertEquals(4, result.value)
+    val result: MincutResult = min.minimumCut(graph)
+    Assertions.assertEquals(4, result.value)
   }
 }
